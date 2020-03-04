@@ -25,7 +25,6 @@ function LoginForm(props) {
           .auth()
           .signInWithEmailAndPassword(email, pw)
           .then(() => {
-            console.log("Login correcto");
             navigation.navigate("MyAccount");
           })
           .catch(() => {

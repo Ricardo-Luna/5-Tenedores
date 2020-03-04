@@ -25,10 +25,8 @@ export default function infoUser(props) {
 
     const resultPermissionCamera =
       resultPermission.permissions.cameraRoll.status;
-    //console.log(resultPermission);
 
     if (resultPermissionCamera === "denied") {
-      console.log("Es necesario aceptar los permisos de la galería");
       toastRef.current.show("Es necesario aceptar los permisos de la galería");
     } else {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -37,11 +35,9 @@ export default function infoUser(props) {
       });
 
       if (result.cancelled) {
-        console.log("Has cerrado la galería de imágenes");
         toastRef.current.show("Has cerrado la galería de imágenes");
       } else {
         uploadImage(result.uri, uid).then(() => {
-          console.log("Imagen subida correctamente");
           toastRef.current.show("Imagen subida correctamente");
           updatePhotoUrl(uid);
         });
@@ -55,7 +51,7 @@ export default function infoUser(props) {
     const response = await fetch(uri);
     const blob = await response.blob();
 
-    console.log(JSON.stringify(response));
+    // console.log(JSON.stringify(response));
 
     const ref = firebase
       .storage()
@@ -79,7 +75,6 @@ export default function infoUser(props) {
         setIsLoading(false);
       })
       .catch(() => {
-        console.log("Error al recuperar el avatar");
         toastRef.current.show("Error al recuperar el avatar");
       });
   };

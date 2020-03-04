@@ -12,12 +12,11 @@ import { firebaseApp } from "../../Utils/Firebase";
 import firebase from "firebase/app";
 import "firebase/firestore";
 const db = firebase.firestore(firebaseApp);
-
 const WidthScreen = Dimensions.get("window").width;
 YellowBox.ignoreWarnings(["componentwillreceiveprops has been renamed"]);
 
 export default function AddRestaurantForm(props) {
-  const { navigation, toastRef, setIsLoading } = props;
+  const { navigation, toastRef, setIsLoading, setIsReloadRestaurants } = props;
   const [imageSelected, setImageSelected] = useState([]);
   const [nombre, setNombre] = useState("");
   const [address, setAddress] = useState("");
@@ -34,7 +33,7 @@ export default function AddRestaurantForm(props) {
       toastRef.current.show("Tienes que localizar el restaurant en el mapa");
     } else {
       setIsLoading(true);
-      UploadImageStorage(imageSelected).then(arrayImages => {
+      uploadImagesStorage(imageSelected).then(arrayImages => {
         db.collection("restaurants")
           .add({
             name: nombre,
@@ -50,19 +49,19 @@ export default function AddRestaurantForm(props) {
           })
           .then(() => {
             setIsLoading(false);
+            setIsReloadRestaurants(true);
             navigation.navigate("Restaurants");
           })
           .catch(error => {
             setIsLoading(false);
             toastRef.current.show("Te vas a tu casa");
-            console.log(error);
           });
       });
     }
   };
 
-  const UploadImageStorage = async imageArray => {
-    const imageBlob = [];
+  const uploadImagesStorage = async imageArray => {
+    const imagesBlob = [];
     await Promise.all(
       imageArray.map(async image => {
         const response = await fetch(image);
@@ -71,10 +70,12 @@ export default function AddRestaurantForm(props) {
           .storage()
           .ref("restaurant-images")
           .child(uuid());
-        await ref.put(blob).then(result => {});
+        await ref.put(blob).then(result => {
+          imagesBlob.push(result.metadata.name);
+        });
       })
     );
-    return imageBlob;
+    return imagesBlob;
   };
 
   return (
@@ -264,8 +265,7 @@ function Map(props) {
         setLocation({
           latitude: loc.coords.latitude,
           longitude: loc.coords.longitude,
-          latitudeDelta: 0.001,
-          longitudeDelta: 0.001
+          latitudeDelta: 0.001
         });
       }
     })();

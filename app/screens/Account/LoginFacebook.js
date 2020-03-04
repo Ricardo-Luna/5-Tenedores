@@ -8,7 +8,6 @@ import Loading from "../../components/Loading";
 export default function LoginFacebook(props) {
   const { toastRef, navigation } = props;
   const [loading, setloading] = useState(false);
-  console.log(props);
 
   const login = async () => {
     await Facebook.initializeAsync(FacebookApi.application_id);
@@ -34,20 +33,15 @@ export default function LoginFacebook(props) {
           toastRef.current.show(
             "Error accediendo a Facebook, inténtelo más tarde"
           );
-          console.log("Error accediendo a Facebook, inténtelo más tarde");
         });
     } else {
       if (type === "cancel") {
-        console.log("Inicio de sesión cancelado");
-
         toastRef.current.show("Inicio de sesión cancelado");
       } else {
         toastRef.current.show("Error desconocido, inténtelo más tarde");
-        console.log("Error desconocido, inténtelo más tarde");
       }
     }
     setloading(false);
-    console.log(type);
   };
   return (
     <>

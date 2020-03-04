@@ -14,7 +14,7 @@ export default function MyAccount() {
     });
   }, []);
 
-  if (!login === null) {
+  if (login === null) {
     return <Loading isVisible={true} text="Cargando..." />;
   }
 

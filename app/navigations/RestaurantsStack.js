@@ -1,11 +1,11 @@
 import { createStackNavigator } from "react-navigation-stack";
-import RestaurantScreen from "../screens/Restaurants";
+import RestaurantsScreen from "../screens/Restaurants";
 import AddRestaurantScreen from "../screens/Restaurants/AddRestaurant";
-import { interpolate } from "react-native-reanimated";
+import RestaurantScreen from "../screens/Restaurants/Restaurant";
 
 const RestaurantsScreenStack = createStackNavigator({
   Restaurants: {
-    screen: RestaurantScreen,
+    screen: RestaurantsScreen,
     navigationOptions: () => ({
       title: "Restaurantes"
     })
@@ -14,6 +14,12 @@ const RestaurantsScreenStack = createStackNavigator({
     screen: AddRestaurantScreen,
     navigationOptions: () => ({
       title: "Nuevo Restaurante"
+    })
+  },
+  Restaurant: {
+    screen: RestaurantScreen,
+    navigationOptions: props => ({
+      title: props.navigation.state.params.restaurant.name
     })
   }
 });
