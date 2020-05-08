@@ -7,7 +7,7 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { YellowBox } from "react-native";
 
-YellowBox.ignoreWarnings(["Setting a timer"]);
+console.ignoredYellowBox = ['Setting a timer']
 
 export default function infoUser(props) {
   const {

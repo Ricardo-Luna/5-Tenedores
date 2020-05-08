@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import { Image } from "react-native-elements";
-
+console.ignoredYellowBox = ['Setting a timer']
 export default function ListRestaurants(props) {
   const { restaurants, isLoading, handleLoadMore, navigation } = props;
   return (
